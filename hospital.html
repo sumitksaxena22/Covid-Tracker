@@ -1,0 +1,211 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+	
+        const api_url ="https://api.rootnet.in/covid19-in/hospitals/beds"; 
+  
+// Defining async function 
+async function getapi(url) { 
+    
+    // Storing response 
+    const response = await fetch(url); 
+    
+    // Storing data in form of JSON 
+    var data = await response.json(); 
+    console.log(data); 
+  if (response.ok) { 
+      hideloader(); 
+    } 
+    show(data); 
+} 
+// Calling that async function 
+getapi(api_url); 
+  
+// Function to hide the loader 
+function hideloader() { 
+    document.getElementById('loading').style.display = 'none'; 
+} 
+// Function to define innerHTML for HTML table 
+function show(data) { 
+    let tab =  
+        `<tr> 
+          <th>State Name</th> 
+          <th>Rural Hospitals</th>
+		  <th>Rural Beds</th>
+		  <th>Urban Hospitals</th>
+		  <th>Urban Beds</th>
+		  <th>Total Hospitals</th>
+		  <th>Total Beds(State Wise)</th>
+         </tr>`; 
+    
+    // Loop to access all rows  
+    for (let r of data.data.regional) { 
+        tab += `<tr>  
+    <td>${r.state} </td> 
+    <td>${r.ruralHospitals}</td>    
+    <td>${r.ruralBeds}</td>   	
+	<td>${r.urbanHospitals}</td> 
+<td>${r.urbanBeds}</td> 
+<td>${r.totalHospitals}</td>  
+<td>${r.totalBeds}</td> 
+    	
+</tr>`; 
+    } 
+    // Setting innerHTML as tab variable 
+    document.getElementById("hbeds").innerHTML = tab; 
+} </script>
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("hbeds");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
+	<script src="script.js"></script>
+        <title>Hospitals&Beds</title> 
+	<style>
+	#hbeds {
+  	font-family:"Trebuchet MS";
+	width:100%;
+	text-align:center;
+	border-collapse:collapse;		
+	}
+
+#hbeds td, #hbeds th {
+  border:2px solid #BCC6CC;
+}
+
+#hbeds tr:nth-child(even){background-color: #e3e4fa;}
+
+#hbeds tr:hover {background-color: #ddd;}
+
+#hbeds th {
+  background-color:#7bccb5;
+	color:black;
+	font-family:"Times new roman";
+	letter-spacing:2px;
+	padding:10px 10px;
+
+}
+#hbeds td{
+	font-family:"calibri";
+}
+
+li{
+list-style:none;
+}
+header{
+	color:white;
+	background-color:black;
+	height:60px;
+	width:98.8%;
+	position:fixed;
+  	top:0;
+  	z-index:10;
+
+	 }
+
+.header-left{
+	font-family:"rockwell";
+	font-size:38px;
+	padding:10px 20px;
+	float:left;
+	opacity:0.6;
+	
+
+}
+.header-right a{
+text-decoration:none;
+font-family:"Calibri";
+font-size:12px;
+color:white;
+}
+
+.header-right li{
+	float:right;
+	padding:20px 20px;
+}
+
+.tabs{
+margin-top:60px;
+}
+
+#myInput,#myInput1{
+	padding:10px 8px;
+  	font-family: "Arial Unicode MS";
+  	margin-top: 5px;
+ 	 margin-right: 10px;
+	margin-left:10px;
+	border: none;
+  	font-size: 11px;
+	text-align:center;
+	
+}
+
+footer {
+  margin-top:10px;
+   padding:1px;
+    background-color:black ;
+    color:white;
+  font-weight:900;
+    width: 100%;
+}
+	</style>
+    </head> 
+    <body> 
+  <header>
+	<div class="header-left">Covid</div>
+	<div class="header-right">
+		<ul>
+		<li><a href="notifications.html">Notifications</a></li>
+    <li><a href="medical.html">Medical colleges</a></li>
+    <li><a href="hospital.html">Hospital beds</a></li>
+    <li><a href="contacts.html">Contacts</a></li>
+    <li><a href="index.html">Home</a></li>
+		</ul>
+	</div>
+
+	<div class="S">
+	<input id="myInput" onkeyup="myFunction()" type="text" placeholder="Search State Name...">
+	</div>
+</header> 
+	<!-- Here a loader is created which  
+             loads till response comes -->
+	
+
+        <div class="d-flex justify-content-center"> 
+            <div class="spinner-border" 
+                 role="status" id="loading"> 
+               <span class="sr-only">Loading...</span> 
+            </div> 
+        </div> 
+        <!-- table for showing data -->
+        <div class="tabs"><table id="hbeds"></table></div>
+        <footer>
+    <div class="container">
+        <center>
+            <small>
+                <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved 
+                 </small></p>
+        </center>
+    </div>
+     </div>
+    </div>
+</footer>
+    </body> 
+	</html>
